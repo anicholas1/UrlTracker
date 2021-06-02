@@ -25,6 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('urltrack/url-track', UrlListViewSet.as_view()),
+    path('api/url-track', UrlListViewSet.as_view()),
 
 ]

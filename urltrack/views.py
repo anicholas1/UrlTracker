@@ -4,6 +4,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from tasks.checkstatus import check_url_task
 
 # TODO What views do I need
 # 1. GET Search
@@ -31,7 +32,8 @@ class UrlListViewSet(APIView):
         # TODO this should require only api auth
         serializer = UrlTrackerSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            url_tracker = serializer.save()
+            check_url_task(url_tracker.id, url_tracker.frequency)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

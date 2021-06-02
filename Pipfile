@@ -8,6 +8,11 @@ verify_ssl = true
 [packages]
 django = "*"
 djangorestframework = "*"
+django-q = "*"
+arrow = "*"
+django-picklefield = "*"
+redis = "*"
+requests = "*"
 
 [requires]
 python_version = "3.9"
