@@ -7,8 +7,8 @@ class UrlTracker(models.Model):
     url = models.CharField(max_length=255)
     frequency = models.IntegerField(default=60)
     expected_status = models.IntegerField(default=200)
-    admin = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # creator of tracker
-    users = models.TextField(blank=True, default=None, null=True)  # JSON field for all emails
+    admin_email = models.CharField(max_length=255, blank=True, null=True)  # JSON Field for admin emails
+    user_emails = models.TextField(blank=True, default=None, null=True)  # JSON field for all emails
     failed_status = models.IntegerField(default=0)
 
 

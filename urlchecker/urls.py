@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from urltrack.views import UrlListViewSet
+from urltrack.views import UrlListViewSet, create_url_tracker_view
 from django.views.generic.base import TemplateView
+from rest_framework_simplejwt import views as jwt_views
 
 
 urlpatterns = [
@@ -24,5 +25,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('api/url-track', UrlListViewSet.as_view()),
-
+    path('api/url-track/create', create_url_tracker_view),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]

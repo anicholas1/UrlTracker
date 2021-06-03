@@ -13,6 +13,7 @@ arrow = "*"
 django-picklefield = "*"
 redis = "*"
 requests = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.9"
