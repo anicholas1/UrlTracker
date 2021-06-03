@@ -32,7 +32,6 @@ This will update the list of emails on user_emails
 
 
 
-
 ## API
 
 Most views required a JWT token so you will need to get a token
@@ -134,6 +133,15 @@ Response 400:
 
 ```
 
+## Database Tables:
+
+#### Key Tables:
+
+UrlTracker - Table for urls, frequency, expected_status, and emails
+UrlStatus - Table for logging each check
+
+## Tests
+
 
 ## Future Changes
 
@@ -142,3 +150,4 @@ Response 400:
 2. Using Postgres instead of SQLlite would be preferable due to the additional fields supported such as the JSONField.
 This will help with storing and searching user_emails.
 3. Adding a real broker for task management rather than using the ORM would be more performant since we avoid hitting our main DB.
+4. Adding tests and fixtures

@@ -26,7 +26,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('api/dashboard', UrlListViewSet.as_view(), name='dashboard'),
     path('api/email-notifications', EmailNotificationsViewset.as_view()),
-    path('api/search', SearchUrlsViewSet.as_view({'get': 'list'})),
+    path('api/search', SearchUrlsViewSet.as_view({'get': 'list'}), name='search'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('api/url-track/create', create_url_tracker_view),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
