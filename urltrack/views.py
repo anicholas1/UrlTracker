@@ -21,6 +21,23 @@ class UrlListViewSet(APIView):
     """
     List all urls associated with an account.
     Create new urls to monitor.
+
+    Response: [
+                {
+                    "url": "https://example.com",
+                    "frequency": 1,
+                    "expected_status": 200,
+                    "admin_email": "admin@example.com",
+                    "user_emails": "[\"abc@gmail.com\", \" cde@gmail.com\", \"test@email.com\"]"
+                },
+                {
+                    "url": "https://example.com",
+                    "frequency": 1,
+                    "expected_status": 200,
+                    "admin_email": "admin@example.com",
+                    "user_emails": "[\"abc@gmail.com\", \" cde@gmail.com\"]"
+                }
+            ]
     """
     renderer_classes = [TemplateHTMLRenderer, ]
     template_name = 'dashboard.html'
@@ -34,6 +51,25 @@ class UrlListViewSet(APIView):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_url_tracker_view(request):
+    """
+        POST Request: {
+                    "url": "https://example.com",
+                    "frequency": 1,
+                    "expected_status": 200,
+                    "admin_email": "admin@example.com",
+                    "user_emails": "abc@gmail.com, cde@gmail.com"
+                }
+
+        Response:
+                {
+                    "url": "https://example.com",
+                    "frequency": 1,
+                    "expected_status": 200,
+                    "admin_email": "admin@example.com",
+                    "user_emails": "[\"abc@gmail.com\", \" cde@gmail.com\"]"
+                }
+    """
+
     data = request.data
     if data.get('user_emails'):
         # Hackish way to get around sqllite not having json field.
@@ -54,6 +90,12 @@ class EmailNotificationsViewset(APIView):
     Update user_emails on Url Trackers.
     Currently only supports POST due to forms only supporting GET/POST.
     Normally I would have made this a patch
+
+    POST Request: {
+                    "url_id": 2,
+                    "email": "admin"
+
+                }
     """
 
     def post(self, request):
@@ -80,6 +122,31 @@ class EmailNotificationsViewset(APIView):
 
 
 class SearchUrlsViewSet(ViewSet):
+    """
+            GET Request:
+                    Params:
+
+                    url Optional String
+                    email Optional String
+
+            Response: [
+                        {
+                            "url": "https://example.com",
+                            "frequency": 1,
+                            "expected_status": 200,
+                            "admin_email": "admin@example.com",
+                            "user_emails": "[\"abc@gmail.com\", \" cde@gmail.com\", \"test@email.com\"]"
+                        },
+                        {
+                            "url": "https://example.com",
+                            "frequency": 1,
+                            "expected_status": 200,
+                            "admin_email": "admin@example.com",
+                            "user_emails": "[\"abc@gmail.com\", \" cde@gmail.com\"]"
+                        }
+                    ]
+    """
+
     serializer_class = UrlTrackerSerializer
     permission_classes = [IsAuthenticated]
 
