@@ -72,12 +72,13 @@ class EmailNotificationsViewset(APIView):
             email_data = json.dumps([user_email])
 
         url_tracker.user_emails = email_data
-        print(url_tracker)
         url_tracker.save()
         return HttpResponseRedirect(redirect_to='/')
 
 
-class SearchUrls(APIView):
 
+class SearchUrls(APIView):
+    # TODO Search based on domain and other params
+    # TODO add error handling for bad searches such as missing params
     def get(self, request):
         pass
