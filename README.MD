@@ -18,7 +18,7 @@ and a dashboard listing all of your url trackers that you have created.
 
 #### URL Trackers:
 
-Dashboard contains 3 columns:
+Dashboard contains 4 columns:
 
 - ID
 - URL
@@ -138,7 +138,7 @@ Response 400:
 ## Future Changes
 
 1. We need better error handling with the repeated tasks. Invalid urls keep being retried rather than defaulting to Failure.
-   Invalid response do work as expected such as https://httpstat.us/400
+   Invalid responses do work as expected such as https://httpstat.us/400
 2. Using Postgres instead of SQLlite would be preferable due to the additional fields supported such as the JSONField.
 This will help with storing and searching user_emails.
-3. Adding a real broker for task management rather than using the ORM would be more performant.
+3. Adding a real broker for task management rather than using the ORM would be more performant since we avoid hitting our main DB.

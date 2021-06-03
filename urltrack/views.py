@@ -80,7 +80,6 @@ class EmailNotificationsViewset(APIView):
 
 
 class SearchUrlsViewSet(ViewSet):
-    # TODO add error handling for bad searches such as missing params
     serializer_class = UrlTrackerSerializer
     permission_classes = [IsAuthenticated]
 
