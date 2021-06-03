@@ -9,7 +9,7 @@ class UrlTrackerSerializer(serializers.ModelSerializer):
         fields = ['url', 'frequency', 'expected_status', 'admin_email', 'user_emails']
 
     def validate_url(self, value):
-        if 'http://' or 'https://' in value:
+        if 'http://' in value or 'https://' in value:
             return value
         raise serializers.ValidationError("Url must contain http or https://")
 

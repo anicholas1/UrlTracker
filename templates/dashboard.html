@@ -44,12 +44,14 @@ tr:nth-child(even) {
     <h1> UrlTrackers </h1>
     <table style="width: 100%">
     <tr>
+        <th>ID</th>
         <th>URL</th>
         <th>Last Checked</th>
         <th>Status</th>
     </tr>
     {%  for u in urls %}
         <tr>
+            <td> {{ u.id }}</td>
             <td> {{ u.url }}</td>
             <td> {{ u.last_checked }}</td>
             {% if u.failed_status == 0 %}
