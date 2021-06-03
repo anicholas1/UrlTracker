@@ -29,7 +29,7 @@ class UrlListViewSet(APIView):
 
     def post(self, request):
         # Create url tracker
-        # TODO this should require only api auth
+        # TODO USE JWT TOken to get the account to set admin
         serializer = UrlTrackerSerializer(data=request.data)
         if serializer.is_valid():
             url_tracker = serializer.save()
