@@ -5,11 +5,12 @@ from urltrack.serializers import UrlTrackerSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes, api_view, authentication_classes
 from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework import status
 from tasks.checkstatus import check_url_task
 import json
 
@@ -50,14 +51,16 @@ def create_url_tracker_view(request):
 
 class EmailNotificationsViewset(APIView):
     """
-    Update and delete user_emails on Url Trackers
+    Update user_emails on Url Trackers.
+    Currently only supports POST due to forms only supporting GET/POST.
+    Normally I would have made this a patch
     """
 
     def post(self, request):
         """ Update only the user_emails field on UrlTracker"""
         url_tracker = UrlTracker.objects.get(pk=request.data.get('url_id'))
         if not url_tracker:
-            return Response({"error": "invalid data",
+            return Response({"error": "invalid_data",
                              "error_description": "The id provided was invalid"
                              }
                             )
@@ -76,9 +79,23 @@ class EmailNotificationsViewset(APIView):
         return HttpResponseRedirect(redirect_to='/')
 
 
-
-class SearchUrls(APIView):
-    # TODO Search based on domain and other params
+class SearchUrlsViewSet(ViewSet):
     # TODO add error handling for bad searches such as missing params
-    def get(self, request):
-        pass
+    serializer_class = UrlTrackerSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        queryset = UrlTracker.objects.all()
+        url_param = self.request.query_params.get('url')
+        email_param = self.request.query_params.get('email')
+        if url_param or email_param:
+            if url_param:
+                queryset = queryset.filter(url__contains=url_param)
+            if email_param:
+                queryset = queryset.filter(admin_email__icontains=email_param)
+        else:
+            return Response({"error": "invalid_params",
+                             "error_description": "Missing either a url or email search param."
+                             })
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

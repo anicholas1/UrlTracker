@@ -60,7 +60,7 @@ def send_alert_email(url_tracker: UrlTracker, admin=False):
     """
         Dummy email function. I don't have an smtp server set up so this
         won't actually work, but I think you get the gist
-        of what I would do with a real server such as Twilio set up
+        of what I would do with a real service such as Twilio set up
 
     """
     if admin:
